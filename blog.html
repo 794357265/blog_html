@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <link rel="stylesheet" href="./static/css/me.css">
     <link rel="stylesheet" href="./static/css/typo.css">
+    <link rel="stylesheet" href="./static/css/animate.css">
+    <link rel="stylesheet" href="./static/lib/prism/css/prism.css">
+    <link rel="stylesheet" href="./static/lib/tocbot/tocbot.css">
 </head>
 <body>
 
@@ -34,7 +37,7 @@
     </nav>
 
     <!--中间内容-->
-    <div class="m-container-small m-padded-tb-big">
+    <div class="m-container-small m-padded-tb-big animated fadeIn">
         <div class="ui container">
             <!--头部-->
             <div class="ui top attached segment">
@@ -65,7 +68,10 @@
 
                 <h2 class="ui center aligned header">关于刻意练习的清单</h2>
                 <br>
-                <div id="content" class="typo typo-selection m-padded-lr-responsive m-padded-tb-large">
+
+                <pre><code class="language-css">p { color: red }</code></pre>
+
+                <div id="content" class="typo typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large">
                     <h2 id="tagline" class="serif">一致化浏览器排版效果，构建最适合中文阅读的网页排版</h2>
 
                     <ol id="table">
@@ -268,7 +274,7 @@
                         You just need to follow the browser's behavior, and set a right <code>margin</code> to it。it will works nice as the
                         demo you're watching now. The following code is the best way to render typo in Chinese:
                     </p>
-                    <pre>
+                    <pre><code class="language-css">
 /* 标题应该更贴紧内容，并与其他块区分，margin 值要相应做优化 */
 h1,h2,h3,h4,h5,h6 {
     line-height:1;font-family:Arial,sans-serif;margin:1.4em 0 0.8em;
@@ -282,7 +288,7 @@ h5,h6{font-size:1em;}
 /* 现代排版：保证块/段落之间的空白隔行 */
 .typo p, .typo pre, .typo ul, .typo ol, .typo dl, .typo form, .typo hr {
     margin:1em 0 0.6em;
-}
+}</code>
 </pre>
 
                     <h3 id="section3">三、附录</h3>
@@ -481,7 +487,7 @@ h5,h6{font-size:1em;}
                 </div>
             </div>
             <!--留言区域-->
-            <div class="ui bottom attached segment">
+            <div id="comment-container" class="ui bottom attached segment">
                 <div class="ui teal segment">
                     <div class="ui comments">
                         <h3 class="ui dividing header">Comments</h3>
@@ -576,6 +582,20 @@ h5,h6{font-size:1em;}
             </div>
         </div>
     </div>
+
+    <div class="m-fixed m-right-bottom m-padded">
+        <div class="ui vertical icon buttons ">
+            <button class="ui toc teal button" type="button">目录</button>
+            <a class="ui teal button" href="#comment-container">留言</a>
+            <button class="ui icon button"><i class="weixin icon"></i></button>
+            <a class="ui icon button" href="#"><i class="chevron up icon"></i></a>
+        </div>
+    </div>
+
+    <div class="ui toc-container payQR flowing popup transition hidden" style="width: 250px;">
+        <ol class="js-toc"></ol>
+    </div>
+
     <br>
     <br>
 
@@ -617,16 +637,34 @@ h5,h6{font-size:1em;}
 
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="./static/lib/prism/js/prism.js"></script>
+    <script src="./static/lib/tocbot/tocbot.min.js"></script>
 
 <script>
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass ('m-mobile-hide');
     });
 
+    tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.js-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.js-toc-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+
     $('#payButton').popup({
         popup: $('.payQR.popup'),
         on: 'click',
         position: 'bottom center'
+    });
+    $('.toc.button').popup({
+        popup: $('.toc-container.popup'),
+        on: 'click',
+        position: 'left center'
     });
 </script>
 </body>
